@@ -1,116 +1,95 @@
+import java.util.*;
 import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        int numeroLlamadasLocal = 0;
-        int duracionTotalLocal = 0;
-        int costoTotalLocal = 0;
-        int numeroLlamadasLD = 0;
-        int duracionTotalLD = 0;
-        int costoTotalLD = 0;
-        int numeroLlamadasCelular = 0;
-        int duracionTotalCelular = 0;
-        int costoTotalCelular = 0;
-        int numeroLlamadas = 0;
-        int duracionTotal = 0; int costoTotal = 0;
-        int opcion;
-        int tipoLlamada = 0;
-        int duracion = 0;
-        int costoMinuto = 0;
-        int costoLlamada;
-        String ultimaLlamada = "Ninguna";
+        String nombre;
+        String telefono;
+        // Datos del cliente
+        System.out.print("Ingrese su nombre: ");
+        nombre = scanner.nextLine();
+        System.out.print("Ingrese su teléfono: ");
+        telefono = scanner.nextLine();
 
-        do {
-            System.out.println("\nMenú de opciones:");
-            System.out.println("1. Registrar una llamada");
-            System.out.println("2. Mostrar información de la línea");
-            System.out.println("3. Reiniciar uso de la línea");
-            System.out.println("4. Salir");
-            System.out.print("Seleccione una opción: ");
-            opcion = scanner.nextInt();
+        // Precios de los productos
+        final double PRECIO_MOUSE = 85000;
+        final double PRECIO_TECLADO = 230000;
+        final double PRECIO_MONITOR = 940000;
+        final double PRECIO_DISCO_DURO = 220000;
+        final double PRECIO_USB = 60000;
+        final double IVA = 0.16;
 
-            if (opcion == 1) {
-                System.out.println("Seleccione el tipo de llamada:");
-                System.out.println("1. Llamada Local");
-                System.out.println("2. Llamada Larga Distancia");
-                System.out.println("3. Llamada a Celular");
-                System.out.print("Ingrese el tipo de llamada: ");
-                tipoLlamada = scanner.nextInt();
+        int Mouse = 0, Teclado = 0, Monitor = 0, DiscoDuro = 0, USB = 0;
+        boolean continuarComprando = true;
 
-                System.out.print("Ingrese la duración en minutos: ");
-                duracion = scanner.nextInt();
+        while (continuarComprando) {
+            System.out.println("\nSeleccione el producto a comprar:");
+            System.out.println("1. Mouse");
+            System.out.println("2. Teclado");
+            System.out.println("3. Monitor");
+            System.out.println("4. Disco Duro");
+            System.out.println("5. USB");
+            System.out.println("6. Finalizar compra");
+            System.out.print("Ingrese su opción: ");
+            int opcion = scanner.nextInt();
+            int cantidad;
 
-                if (tipoLlamada == 1) {
-                    costoMinuto = 50;
-                    ultimaLlamada = "Llamada Local";
-                    numeroLlamadasLocal++;
-                    duracionTotalLocal += duracion;
-                    costoTotalLocal += duracion * costoMinuto;
-                } else if (tipoLlamada == 2) {
-                    costoMinuto = 350;
-                    ultimaLlamada = "Llamada Larga Distancia";
-                    numeroLlamadasLD++;
-                    duracionTotalLD += duracion;
-                    costoTotalLD += duracion * costoMinuto;
-                } else if (tipoLlamada == 3) {
-                    costoMinuto = 150;
-                    ultimaLlamada = "Llamada a Celular";
-                    numeroLlamadasCelular++;
-                    duracionTotalCelular += duracion;
-                    costoTotalCelular += duracion * costoMinuto;
-                } else {
-                    System.out.println("Tipo de llamada no válido.");
-                    continue;
-                }
-
-                costoLlamada = duracion * costoMinuto;
-                numeroLlamadas++;
-                duracionTotal += duracion;
-                costoTotal += costoLlamada;
-
-                System.out.println("Llamada registrada con éxito.");
+            if (opcion == 6) {
+                continuarComprando = false;
+                break;
             }
-            else if (opcion == 2) {
-                System.out.println("\nInformación de la línea telefónica:");
-                System.out.println("Llamadas Locales:");
-                System.out.println("  - Número de llamadas: " + numeroLlamadasLocal);
-                System.out.println("  - Duración total: " + duracionTotalLocal + " minutos");
-                System.out.println("  - Costo total: $" + costoTotalLocal + " pesos");
 
-                System.out.println("\nLlamadas Larga Distancia:");
-                System.out.println("  - Número de llamadas: " + numeroLlamadasLD);
-                System.out.println("  - Duración total: " + duracionTotalLD + " minutos");
-                System.out.println("  - Costo total: $" + costoTotalLD + " pesos");
+            System.out.print("Ingrese la cantidad: ");
+            cantidad = scanner.nextInt();
 
-                System.out.println("\nLlamadas a Celular:");
-                System.out.println("  - Número de llamadas: " + numeroLlamadasCelular);
-                System.out.println("  - Duración total: " + duracionTotalCelular + " minutos");
-                System.out.println("  - Costo total: $" + costoTotalCelular + " pesos");
+            switch (opcion) {
+                case 1: Mouse += cantidad;
+                    break;
+                case 2: Teclado += cantidad;
+                    break;
+                case 3: Monitor += cantidad;
+                    break;
+                case 4: DiscoDuro += cantidad;
+                    break;
+                case 5: USB += cantidad;
+                    break;
+                default: System.out.println("Opción no válida");
+            }
+        }
 
-                System.out.println("\nResumen Total:");
-                System.out.println("  - Número de llamadas realizadas: " + numeroLlamadas);
-                System.out.println("  - Duración total de llamadas: " + duracionTotal + " minutos");
-                System.out.println("  - Costo total de llamadas: $" + costoTotal + " pesos");
-                System.out.println("  - Última llamada realizada: " + ultimaLlamada);
-            }
-            else if (opcion == 3) {
-                numeroLlamadasLocal = duracionTotalLocal = costoTotalLocal = 0;
-                numeroLlamadasLD = duracionTotalLD = costoTotalLD = 0;
-                numeroLlamadasCelular = duracionTotalCelular = costoTotalCelular = 0;
-                numeroLlamadas = duracionTotal = costoTotal = 0;
-                ultimaLlamada = "Ninguna";
-                System.out.println("Los datos de la línea han sido reiniciados.");
-            }
-            else if (opcion == 4) {
-                System.out.println("Saliendo de la aplicación...");
-            }
-            else {
-                System.out.println("Opción no válida. Intente de nuevo.");
-            }
-        } while (opcion != 4);
+        // Calcular valores
+        double totalMouse = Mouse * PRECIO_MOUSE;
+        double totalTeclado = Teclado * PRECIO_TECLADO;
+        double totalMonitor = Monitor * PRECIO_MONITOR;
+        double totalDiscoDuro = DiscoDuro * PRECIO_DISCO_DURO;
+        double totalUSB = USB * PRECIO_USB;
+        double totalSinIVA = totalMouse + totalTeclado + totalMonitor + totalDiscoDuro + totalUSB;
+        double ivaCalculado = totalSinIVA * IVA;
+        double totalConIVA = totalSinIVA + ivaCalculado;
 
-        scanner.close();
+        // Mostrar factura
+        // Mostrar factura
+        System.out.println("\n---------------------------");
+        System.out.println("      FACTURA DE VENTA      ");
+        System.out.println("---------------------------");
+        System.out.println("Cliente: " + nombre);
+        System.out.println("Teléfono: " + telefono);
+        System.out.println("---------------------------");
+        System.out.printf("%-15s %-10s %-15s %-15s\n", "Producto", "Cantidad", "Valor Unitario", "Total");
+        if (Mouse > 0)
+            System.out.printf("%-15s %-10d %-15.2f %-15.2f\n", "Mouse", Mouse, PRECIO_MOUSE, totalMouse);
+        if (Teclado > 0)
+            System.out.printf("%-15s %-10d %-15.2f %-15.2f\n", "Teclado", Teclado, PRECIO_TECLADO, totalTeclado);
+        if (Monitor > 0)
+            System.out.printf("%-15s %-10d %-15.2f %-15.2f\n", "Monitor", Monitor, PRECIO_MONITOR, totalMonitor);
+        if (DiscoDuro > 0)
+            System.out.printf("%-15s %-10d %-15.2f %-15.2f\n", "Disco Duro", DiscoDuro, PRECIO_DISCO_DURO, totalDiscoDuro);
+        if (USB > 0)
+            System.out.printf("%-15s %-10d %-15.2f %-15.2f\n", "USB", USB, PRECIO_USB, totalUSB);
+        System.out.println("---------------------------");
+        System.out.printf("%-30s %-15.2f\n", "Total sin IVA:", totalSinIVA);
+        System.out.printf("%-30s %-15.2f\n", "IVA (16%):", ivaCalculado);
+        System.out.printf("%-30s %-15.2f\n", "Total con IVA:", totalConIVA);
     }
 }
