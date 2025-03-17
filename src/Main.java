@@ -1,95 +1,103 @@
-import java.util.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        int opcion;
+        double temperatura, resultado;
 
-        String nombre;
-        String telefono;
-        // Datos del cliente
-        System.out.print("Ingrese su nombre: ");
-        nombre = scanner.nextLine();
-        System.out.print("Ingrese su teléfono: ");
-        telefono = scanner.nextLine();
 
-        // Precios de los productos
-        final double PRECIO_MOUSE = 85000;
-        final double PRECIO_TECLADO = 230000;
-        final double PRECIO_MONITOR = 940000;
-        final double PRECIO_DISCO_DURO = 220000;
-        final double PRECIO_USB = 60000;
-        final double IVA = 0.16;
+        do {
+            mostrarMenu();
+            opcion = leerEntero(scanner, "Seleccione una opción (1-16): ", 1, 16);
 
-        int Mouse = 0, Teclado = 0, Monitor = 0, DiscoDuro = 0, USB = 0;
-        boolean continuarComprando = true;
-
-        while (continuarComprando) {
-            System.out.println("\nSeleccione el producto a comprar:");
-            System.out.println("1. Mouse");
-            System.out.println("2. Teclado");
-            System.out.println("3. Monitor");
-            System.out.println("4. Disco Duro");
-            System.out.println("5. USB");
-            System.out.println("6. Finalizar compra");
-            System.out.print("Ingrese su opción: ");
-            int opcion = scanner.nextInt();
-            int cantidad;
-
-            if (opcion == 6) {
-                continuarComprando = false;
+            if (opcion == 16) {
+                System.out.println("Saliendo del programa...");
                 break;
             }
 
-            System.out.print("Ingrese la cantidad: ");
-            cantidad = scanner.nextInt();
+            temperatura = leerDouble(scanner, "Ingrese la temperatura a convertir: ");
+            resultado = convertirTemperatura(opcion, temperatura);
 
-            switch (opcion) {
-                case 1: Mouse += cantidad;
-                    break;
-                case 2: Teclado += cantidad;
-                    break;
-                case 3: Monitor += cantidad;
-                    break;
-                case 4: DiscoDuro += cantidad;
-                    break;
-                case 5: USB += cantidad;
-                    break;
-                default: System.out.println("Opción no válida");
+            System.out.println("Resultado de la conversión: " + resultado);
+            System.out.println();
+
+        } while (true);
+
+        scanner.close();
+    }
+
+    public static void mostrarMenu() {
+        System.out.println("\nConversor de Temperatura");
+        System.out.println("1. Celsius a Fahrenheit");
+        System.out.println("2. Celsius a Kelvin");
+        System.out.println("3. Celsius a Rankine");
+        System.out.println("4. Celsius a Réaumur");
+        System.out.println("5. Fahrenheit a Celsius");
+        System.out.println("6. Fahrenheit a Kelvin");
+        System.out.println("7. Fahrenheit a Rankine");
+        System.out.println("8. Fahrenheit a Réaumur");
+        System.out.println("9. Kelvin a Celsius");
+        System.out.println("10. Kelvin a Fahrenheit");
+        System.out.println("11. Kelvin a Rankine");
+        System.out.println("12. Kelvin a Réaumur");
+        System.out.println("13. Rankine a Celsius");
+        System.out.println("14. Rankine a Fahrenheit");
+        System.out.println("15. Rankine a Kelvin");
+        System.out.println("16. Salir");
+    }
+
+    public static int leerEntero(Scanner scanner, String mensaje, int min, int max) {
+        int valor;
+        while (true) {
+            try {
+                System.out.print(mensaje);
+                valor = scanner.nextInt();
+                if (valor >= min && valor <= max) {
+                    return valor;
+                } else {
+                    System.out.println("Error: Ingrese un número entre " + min + " y " + max);
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Entrada inválida. Ingrese un número entero.");
+                scanner.next(); // Limpiar buffer de entrada
             }
         }
+    }
 
-        // Calcular valores
-        double totalMouse = Mouse * PRECIO_MOUSE;
-        double totalTeclado = Teclado * PRECIO_TECLADO;
-        double totalMonitor = Monitor * PRECIO_MONITOR;
-        double totalDiscoDuro = DiscoDuro * PRECIO_DISCO_DURO;
-        double totalUSB = USB * PRECIO_USB;
-        double totalSinIVA = totalMouse + totalTeclado + totalMonitor + totalDiscoDuro + totalUSB;
-        double ivaCalculado = totalSinIVA * IVA;
-        double totalConIVA = totalSinIVA + ivaCalculado;
+    public static double leerDouble(Scanner scanner, String mensaje) {
+        double valor;
+        while (true) {
+            try {
+                System.out.print(mensaje);
+                valor = scanner.nextDouble();
+                return valor;
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Entrada inválida. Ingrese un número válido.");
+                scanner.next();
+            }
+        }
+    }
 
-        // Mostrar factura
-        // Mostrar factura
-        System.out.println("\n---------------------------");
-        System.out.println("      FACTURA DE VENTA      ");
-        System.out.println("---------------------------");
-        System.out.println("Cliente: " + nombre);
-        System.out.println("Teléfono: " + telefono);
-        System.out.println("---------------------------");
-        System.out.printf("%-15s %-10s %-15s %-15s\n", "Producto", "Cantidad", "Valor Unitario", "Total");
-        if (Mouse > 0)
-            System.out.printf("%-15s %-10d %-15.2f %-15.2f\n", "Mouse", Mouse, PRECIO_MOUSE, totalMouse);
-        if (Teclado > 0)
-            System.out.printf("%-15s %-10d %-15.2f %-15.2f\n", "Teclado", Teclado, PRECIO_TECLADO, totalTeclado);
-        if (Monitor > 0)
-            System.out.printf("%-15s %-10d %-15.2f %-15.2f\n", "Monitor", Monitor, PRECIO_MONITOR, totalMonitor);
-        if (DiscoDuro > 0)
-            System.out.printf("%-15s %-10d %-15.2f %-15.2f\n", "Disco Duro", DiscoDuro, PRECIO_DISCO_DURO, totalDiscoDuro);
-        if (USB > 0)
-            System.out.printf("%-15s %-10d %-15.2f %-15.2f\n", "USB", USB, PRECIO_USB, totalUSB);
-        System.out.println("---------------------------");
-        System.out.printf("%-30s %-15.2f\n", "Total sin IVA:", totalSinIVA);
-        System.out.printf("%-30s %-15.2f\n", "IVA (16%):", ivaCalculado);
-        System.out.printf("%-30s %-15.2f\n", "Total con IVA:", totalConIVA);
+    public static double convertirTemperatura(int opcion, double temperatura) {
+        switch (opcion) {
+            case 1: return (temperatura * 9/5) + 32; // Celsius a Fahrenheit
+            case 2: return temperatura + 273.15; // Celsius a Kelvin
+            case 3: return (temperatura + 273.15) * 9/5; // Celsius a Rankine
+            case 4: return temperatura * 4/5; // Celsius a Réaumur
+            case 5: return (temperatura - 32) * 5/9; // Fahrenheit a Celsius
+            case 6: return (temperatura - 32) * 5/9 + 273.15; // Fahrenheit a Kelvin
+            case 7: return temperatura + 459.67; // Fahrenheit a Rankine
+            case 8: return (temperatura - 32) * 4/9; // Fahrenheit a Réaumur
+            case 9: return temperatura - 273.15; // Kelvin a Celsius
+            case 10: return (temperatura - 273.15) * 9/5 + 32; // Kelvin a Fahrenheit
+            case 11: return temperatura * 9/5; // Kelvin a Rankine
+            case 12: return (temperatura - 273.15) * 4/5; // Kelvin a Réaumur
+            case 13: return (temperatura - 491.67) * 5/9; // Rankine a Celsius
+            case 14: return temperatura - 459.67; // Rankine a Fahrenheit
+            case 15: return temperatura * 5/9; // Rankine a Kelvin
+            default: return 0;
+        }
     }
 }
